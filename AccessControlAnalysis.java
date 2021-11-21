@@ -43,7 +43,7 @@ public class AccessControlAnalysis {
         else
           query(stLine, object, priv);
       }
-      else //Comment Block
+      else //Comment NOT a Command
         outputFile.add(stLine); 
     }
     
@@ -178,7 +178,7 @@ public class AccessControlAnalysis {
       }
       else
       {
-        List<String> privLst = new ArrayList<>();
+        List<String> privLst = new ArrayList<>(); 
         privLst.add(priv);
         objectHash.put(object, privLst);
       }
