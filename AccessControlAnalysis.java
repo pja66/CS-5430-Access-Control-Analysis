@@ -21,8 +21,8 @@ public class AccessControlAnalysis {
   
   public static void main(String[] args) throws FileNotFoundException, IOException {
     //Input File
-    String path = "/Users/PhilipAyoub/Desktop/test.txt";
-    List<String> file = inputFile("/Users/PhilipAyoub/Desktop/test.txt");
+    String path = "test.txt";
+    List<String> file = inputFile(path);
 
     //Cycle Through File
     for(int line = 0; line < file.size(); line++)
@@ -207,7 +207,7 @@ public class AccessControlAnalysis {
     outputFile.add(stLine + " NO");
   }
 
-  private static void outputFile() {
+  private static void outputFile() throws IOException{
     FileWriter writer = new FileWriter("output.txt"); 
     for(String str: outputFile) {
       writer.write(str + System.lineSeparator());
