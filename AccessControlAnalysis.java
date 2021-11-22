@@ -64,6 +64,7 @@ public class AccessControlAnalysis {
     while ((stLine = br.readLine()) != null)
       fileLst.add(stLine);
 
+    br.close();
     return fileLst;
   }
 
@@ -91,8 +92,8 @@ public class AccessControlAnalysis {
     if(priv.equals("T") &&  (objectsSeen.contains(potSub) || objectsSeen.contains(potObj)))
         return false;
 
-    //Object/Subject Validation for "R" and "W"
-    if(priv.equals("W") || priv.equals("R"))
+    //Object/Subject Validation for "R", "W", and "Query"
+    if(priv.equals("W") || priv.equals("R") || type.equals("Query"))
     {
       if(objectsSeen.contains(potSub) || subjectsSeen.contains(potObj))
         return false;
@@ -173,8 +174,6 @@ public class AccessControlAnalysis {
           privLst.add(priv);
           objectHash.put(object, privLst);
         }
-        else
-          System.out.println("ALREADY HAS PRIVLEDGE");
       }
       else
       {
@@ -185,6 +184,9 @@ public class AccessControlAnalysis {
     }
     else
     {
+      objectsSeen.add(object); //Keep track of files seen for validation
+      subjectsSeen.add(subject); //Keep track of subjects seen for validation
+
       HashMap<String, List<String>> objectHash = new HashMap<>();
       List<String> privLst = new ArrayList<>();
       privLst.add(priv);
@@ -195,6 +197,12 @@ public class AccessControlAnalysis {
 
   private static void query(String stLine, String object, String priv)
   {
+    if(priv.equals("T"))
+    {
+      outputFile.add(stLine + " YES");
+      return;
+    }
+
     for (String sub1 : privMatrix.keySet())
     {
       HashMap<String, List<String>> objectHash = privMatrix.get(sub1);
