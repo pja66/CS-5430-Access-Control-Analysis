@@ -1,4 +1,9 @@
-
+ACA SYSTEM TESTING FILE:
+REFRENCE TABLE:
+  * ADD
+  * QUERY
+  * INSTURCTION VALIDATION
+  * GIVEN TEST
 ____________________________ TESTING ADD ____________________________
 
 READ PRIVLEDGES: 
@@ -98,23 +103,31 @@ GENERAL:
 Add, Vs1, Vo7, R
 NotQuery, Vs7, Vo7, R
 
+* Val 8: Should be a "Comment" since "D" is not a valid privledge
+Add, Vs0, Vo0, R
+Query, Vs0, Vo0, D
+
 READ PRIVLEDGES:
-* Val 8: Should be "Comment" since "Vs9" is an "subject"
+* Val 9: Should be "Comment" since "Vs9" is an "subject"
 Add, Vs8, Vo1, R
 Add, Vs9, Vo1, R
 Query, Vs8, Vs9, R
 
 WRITE PRIVLEDGES:
-* Val 9: Should be a "Comment" since "Vs3" is a "subject"
+* Val 10: Should be a "Comment" since "Vs3" is a "subject"
 Add, Vs10, Vob9, W
 Add, Vs9, Vs10, W
 Query, Vs9, Vs10, W
 
 TAKE PRIVLEDGES:
-* Val 10: Should be "No" since the "Add" is a "Comment"
+* Val 11: Should be "No" since the "Add" is a "Comment"
 Add, Vs10, Vo10, R
 Add, Vs11, Vo10, T
 Query, Vs11, Vo10, W
 
-____________________________ OTHER TESTING ____________________________
+____________________________ GIVEN TEST ____________________________
 
+* Should be "YES"
+Add, s1, o1, R
+Add, s2, o1, W
+Query, s1, o1, R
