@@ -47,6 +47,9 @@ public class AccessControlAnalysis {
         outputFile.add(stLine); 
     }
     
+    //We will end up just keeping this
+    outputFileGen(outputFile);
+
     //Just Pretty Print to Terminal
     System.out.println(" ");
     for(int i = 0; i < outputFile.size(); i++)
@@ -219,7 +222,7 @@ public class AccessControlAnalysis {
     outputFile.add(stLine + " NO");
   }
 
-  private static void outputFile() throws IOException{
+  private static void outputFileGen(List<String> outputFile) throws IOException{
     FileWriter writer = new FileWriter("output.txt"); 
     for(String str: outputFile) {
       writer.write(str + System.lineSeparator());
