@@ -1,42 +1,57 @@
-ACA SYSTEM TESTING FILE:
+                                ACA SYSTEM TESTING FILE
+                                -----------------------
+OVERVIEW:
+There are around 48 permutations of instructions:
+{Add, Quote}x{R,W,T}x{YES, NO}x{Command, Comment 1, Comment 2, Comment 3, Comment 4}
+
+Where: 
+  * Command = Syntactically correct command
+  * Comment 1 = Misspelled/No \textit{Add} or \textit{Quote}
+  * Comment 2 = Misspelled/No \textit{R,W,T}
+  * Comment 3 = \textit{Object} where there should be a \textit{Subject} belongs and vice versa
+  * Comment 4 = A plain text comment
+
+The below test file includes tests for each of these permutations. What is not 
+included is redundant testing. 
+
 REFRENCE TABLE:
   * ADD
   * QUERY
   * INSTURCTION VALIDATION
-  * Mix 
+  * MIX 
   * GIVEN TEST
 ____________________________ TESTING ADD ____________________________
 
-READ PRIVLEDGES: 
-* Add 0: Simple "read" privledge (Should be "NO")
+READ PRIVILEGES: 
+* Add 0: Simple "read" privilege (Should be "NO")
 Add, As1, Ao1, R
 Query, As1, Ao2, R
 
-* Add 1: Simple "read" privledge (Should be "YES")
+* Add 1: Simple "read" privilege (Should be "YES")
 Add, As1, Ao1, R
 Query, As1, Ao1, R
 
-WRITE PRIVLEDGES:
-* Add 2: Simple "write" privledge (Should be "NO")
+WRITE PRIVILEGES:
+* Add 2: Simple "write" privilege (Should be "NO")
 Add, As1, Ao1, W
 Query, As1, Ao2, W
 
-* Add 3: Simple "write" privledge (Should be "YES")
+* Add 3: Simple "write" privilege (Should be "YES")
 Add, As1, Ao1, W
 Query, As1, Ao1, W
 
-TAKE PRIVLEDGES:
-* Add 4: Simple "take" privledge (Should be "NO")
+TAKE PRIVILEGES:
+* Add 4: Simple "take" privilege with an empty subject' (Should be "NO")
 Add, As2, As1, T
 Query, As2, Ao2, W
 
-* Add 5: Simple "take" privledge (Should be "YES")
+* Add 5: Simple "take" privledge with a "full" subject' (Should be "YES")
 Add, As4, As1, T
 Query, As4, Ao1, W
 
 ____________________________ TESTING QUERY ____________________________
 
-READ PRIVLEDGES:
+READ PRIVILEGES:
 * Query 0: Should be "NO" since no subject has appropriate privledges
 Query, Qs1, Qo1, R
 
@@ -48,7 +63,7 @@ Query, Qs1, Qo1, R
 Add, Qs1, Qo1, R
 Query, Qs2, Qo1, R
 
-WRITE PRIVLEDGES:
+WRITE PRIVILEGES:
 * Query 3: Should be "NO" since no subject has appropriate privledges
 Query, Qs3, Qo3, W
 
@@ -60,7 +75,7 @@ Query, Qs3, Qo3, W
 Add, Qs4, Qo4, W
 Query, Qs5, Qo4, W
 
-TAKE PRIVLEDGES:
+TAKE PRIVILEGES:
 * Query 6: Should always be "YES" if instruction is valid
 Query, Qs6, Qs5, T
 
@@ -72,27 +87,27 @@ GENERAL:
 NotAdd, Vs1, Vo1, R
 Query, Vs1, Vo1, R
 
-* Val 1: Should be "NO" since "D" is not a valid privledge
+* Val 1: Should be "NO" since "D" is not a valid privilege
 Add, Vs1, Vo1, D
 Query, Vs1, Vo1, R
 
-* Val 2: Should be a "Comment" since "D" is not a valid privledge
+* Val 2: Should be a "Comment" since "D" is not a valid privilege
 Add, Vs1, Vo1, D
 Query, Vs1, Vo1, D
 
-READ PRIVLEDGES:
+READ PRIVILEGES:
 * Val 3: Should be "NO" since "Vo1" is an object
 Add, Vs1, Vo1, R
 Add, Vo1, Vo2, R
 Query, Vs1, Vo2, R
 
-WRITE PRIVLEDGES:
+WRITE PRIVILEGES:
 * Val 4: Should be "NO" since "Vo1" is an object
 Add, Vs1, Vo1, W
 Add, Vo1, Vo2, W
 Query, Vs1, Vo2, W
 
-TAKE PRIVLEDGES:
+TAKE PRIVILEGES:
 * Val 5: Should be "NO" since "Vo5" is an object
 Add, Vs5, Vo5, R
 Add, Vs5, Vo5, T
@@ -104,23 +119,23 @@ GENERAL:
 Add, Vs1, Vo7, R
 NotQuery, Vs7, Vo7, R
 
-* Val 8: Should be a "Comment" since "D" is not a valid privledge
+* Val 8: Should be a "Comment" since "D" is not a valid privileges
 Add, Vs0, Vo0, R
 Query, Vs0, Vo0, D
 
-READ PRIVLEDGES:
+READ PRIVILEGES:
 * Val 9: Should be "Comment" since "Vs9" is an "subject"
 Add, Vs8, Vo1, R
 Add, Vs9, Vo1, R
 Query, Vs8, Vs9, R
 
-WRITE PRIVLEDGES:
+WRITE PRIVILEGES:
 * Val 10: Should be a "Comment" since "Vs3" is a "subject"
 Add, Vs10, Vob9, W
 Add, Vs9, Vs10, W
 Query, Vs9, Vs10, W
 
-TAKE PRIVLEDGES:
+TAKE PRIVILEGES:
 * Val 11: Should be "No" since the "Add" is a "Comment"
 Add, Vs10, Vo10, R
 Add, Vs11, Vo10, T
