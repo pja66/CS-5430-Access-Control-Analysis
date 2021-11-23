@@ -1,8 +1,8 @@
                                 ACA SYSTEM TESTING FILE
                                 -----------------------
 OVERVIEW:
-There are around 48 permutations of instructions:
-{Add, Quote}x{R,W,T}x{YES, NO}x{Command, Comment 1, Comment 2, Comment 3, Comment 4}
+There are around more or less 20 permutations of input lines:
+{Add, Quote YES, Quote NO} x {R,W,T} x {Command, Comment 1, Comment 2, Comment 3} + {Comment 4}
 
 Where: 
   * Command = Syntactically correct command
@@ -11,8 +11,8 @@ Where:
   * Comment 3 = \textit{Object} where there should be a \textit{Subject} belongs and vice versa
   * Comment 4 = A plain text comment
 
-The below test file includes tests for each of these permutations. What is not 
-included is redundant testing. 
+The below test file includes tests for each of these permutations. Mutiple permutations
+can be tested in one test. What is not included is redundant testing. 
 
 REFRENCE TABLE:
   * ADD
@@ -52,7 +52,7 @@ Query, As4, Ao1, W
 ____________________________ TESTING QUERY ____________________________
 
 READ PRIVILEGES:
-* Query 0: Should be "NO" since no subject has appropriate privledges
+* Query 0: Should be "NO" since no subject has appropriate privileges
 Query, Qs1, Qo1, R
 
 * Query 1: Should be "YES" by direct relation
@@ -64,7 +64,7 @@ Add, Qs1, Qo1, R
 Query, Qs2, Qo1, R
 
 WRITE PRIVILEGES:
-* Query 3: Should be "NO" since no subject has appropriate privledges
+* Query 3: Should be "NO" since no subject has appropriate privileges
 Query, Qs3, Qo3, W
 
 * Query 4: Should be "YES" by direct relation
@@ -76,7 +76,7 @@ Add, Qs4, Qo4, W
 Query, Qs5, Qo4, W
 
 TAKE PRIVILEGES:
-* Query 6: Should always be "YES" if instruction is valid
+* Query 6: Should always be "YES" if everything else in the instruction is valid
 Query, Qs6, Qs5, T
 
 _______________________ TESTING INSTURCTION VALIDATION _______________________
