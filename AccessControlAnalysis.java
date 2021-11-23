@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
+import java.util.Stack;
 import java.io.*;
 
 //NetIds: PJA66 && NCL44
@@ -11,6 +12,10 @@ public class AccessControlAnalysis {
 
   //Data Structure representing a "Privilege Matrix"
   public static HashMap<String, HashMap<String, List<String>>> privMatrix = new HashMap<>();
+
+  //TAKE HASHMAP
+  public static HashMap<String, List<String>> takeMap = new HashMap<>();
+
   //Output File Variable
   public static List<String> outputFile = new ArrayList<>();
 
@@ -41,7 +46,7 @@ public class AccessControlAnalysis {
         if(type.equals("Add"))
           add(stLine, subject, object, priv);
         else
-          query(stLine, object, priv);
+          query(stLine, subject, object, priv);
       }
       else //Comment NOT a Command
         outputFile.add(stLine); 
@@ -100,6 +105,9 @@ public class AccessControlAnalysis {
     if(!type.equals("Add") && !type.equals("Query"))
       return false;
     
+    if(type.equals("Query") && priv.equals("T"))
+      return false;
+      
     if(!priv.equals("R") && !priv.equals("W") && !priv.equals("T"))
       return false; 
   
@@ -121,39 +129,16 @@ public class AccessControlAnalysis {
       subjectsSeen.add(subjectOne);
       subjectsSeen.add(subjectTwo);
 
-      if(privMatrix.containsKey(subjectTwo))
+      if(takeMap.containsKey(subjectOne))
       {
-        HashMap<String, List<String>> objectHashSubjectTwo = privMatrix.get(subjectTwo);
-        for (String objForSub2 : objectHashSubjectTwo.keySet()) {
-          if(privMatrix.containsKey(subjectOne))
-          {
-            HashMap<String, List<String>> objectHashSubjectOne = privMatrix.get(subjectOne);
-            if(objectHashSubjectOne.containsKey(objForSub2))
-            {
-              List<String> privLstOne = objectHashSubjectOne.get(objForSub2);
-              List<String> privLstTwo = objectHashSubjectTwo.get(objForSub2);
-              for(int i = 0; i < privLstTwo.size(); i++)
-              {
-                String curPriv = privLstTwo.get(i);
-                if(!privLstOne.contains(curPriv))
-                  privLstOne.add(curPriv); 
-              }
-              objectHashSubjectOne.put(objForSub2, privLstOne);
-            }
-            else
-            {
-              List<String> privLstTwo = objectHashSubjectTwo.get(objForSub2);
-              objectHashSubjectOne.put(objForSub2, privLstTwo);
-            }
-          }
-          else
-          {
-            HashMap<String, List<String>> objectHash = new HashMap<>();
-            List<String> privLstTwo = objectHashSubjectTwo.get(objForSub2);
-            objectHash.put(objForSub2, privLstTwo);
-            privMatrix.put(subjectOne, objectHash);
-          }
-        }
+        List<String> subOneLst = takeMap.get(subjectOne);
+        subOneLst.add(subjectTwo);
+      }
+      else
+      {
+        List<String> subOneLst = new ArrayList<>();
+        subOneLst.add(subjectTwo);
+        takeMap.put(subjectOne, subOneLst);
       }
     }
     else if(privMatrix.containsKey(subject)) //For Privledge "W" and "R"
@@ -192,28 +177,45 @@ public class AccessControlAnalysis {
       privMatrix.put(subject, objectHash);
     }
   }
-
-  private static void query(String stLine, String object, String priv)
-  {
-    if(priv.equals("T"))
+  
+private static boolean helperQuery(String subject, String object, String priv)
+{
+  if(privMatrix.containsKey(subject))
     {
-      outputFile.add(stLine + " YES");
-      return;
-    }
-
-    for (String sub1 : privMatrix.keySet())
-    {
-      HashMap<String, List<String>> objectHash = privMatrix.get(sub1);
-      if(objectHash.containsKey(object))
+      if(privMatrix.get(subject).containsKey(object))
       {
-        List<String> privLst = objectHash.get(object);
+        List<String> privLst = privMatrix.get(subject).get(object);
         if(privLst.contains(priv))
-        {
-          outputFile.add(stLine + " YES");
-          return;
-        }
+          return true; 
       }
     }
+  return false;
+}
+
+  private static void query(String stLine, String subject, String object, String priv)
+  {
+    Stack<String> stackRec = new Stack<>();
+    Set<String> seen = new HashSet<>();
+
+    stackRec.add(subject);
+    
+    while(stackRec.size() != 0)
+    {
+      String curSub = stackRec.pop();
+      if(helperQuery(curSub, object, priv))
+      {
+        outputFile.add(stLine + " YES");
+        return;
+      }
+
+      if(takeMap.containsKey(curSub) && !seen.contains(curSub))
+      {
+        seen.add(curSub);
+        for (String subPrime : takeMap.get(curSub))
+          stackRec.add(subPrime);
+      }
+    }
+
     outputFile.add(stLine + " NO");
   }
 
