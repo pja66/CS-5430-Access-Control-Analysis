@@ -18,7 +18,7 @@ REFRENCE TABLE:
   * ADD
   * QUERY
   * INSTURCTION VALIDATION
-  * MORE TAKE TESTS
+  * MORE TAKE/QUERY TESTS
   * MIX 
   * GIVEN TEST
 ____________________________ TESTING ADD ____________________________
@@ -144,7 +144,7 @@ Add, Vs10, Vo10, R
 Add, Vs11, Vo10, T
 Query, Vs11, Vo10, W
 
-____________________________ MORE TAKE TESTS  ____________________________
+____________________________ MORE TAKE/QUERY TESTS  ____________________________
 
 * "NO"
 Query, Ts2, To1, R
