@@ -3,66 +3,66 @@ REFRENCE TABLE:
   * ADD
   * QUERY
   * INSTURCTION VALIDATION
-  * Mix 
+  * MIX 
   * GIVEN TEST
 ____________________________ TESTING ADD ____________________________
 
 READ PRIVLEDGES: 
 * Add 0: Simple "read" privledge (Should be "NO")
 Add, As1, Ao1, R
-Query, As1, Ao2, R
+Query, As1, Ao2, R NO
 
 * Add 1: Simple "read" privledge (Should be "YES")
 Add, As1, Ao1, R
-Query, As1, Ao1, R
+Query, As1, Ao1, R YES
 
 WRITE PRIVLEDGES:
 * Add 2: Simple "write" privledge (Should be "NO")
 Add, As1, Ao1, W
-Query, As1, Ao2, W
+Query, As1, Ao2, W NO
 
 * Add 3: Simple "write" privledge (Should be "YES")
 Add, As1, Ao1, W
-Query, As1, Ao1, W
+Query, As1, Ao1, W YES
 
 TAKE PRIVLEDGES:
 * Add 4: Simple "take" privledge (Should be "NO")
 Add, As2, As1, T
-Query, As2, Ao2, W
+Query, As2, Ao2, W NO
 
 * Add 5: Simple "take" privledge (Should be "YES")
 Add, As4, As1, T
-Query, As4, Ao1, W
+Query, As4, Ao1, W YES
 
 ____________________________ TESTING QUERY ____________________________
 
 READ PRIVLEDGES:
 * Query 0: Should be "NO" since no subject has appropriate privledges
-Query, Qs1, Qo1, R
+Query, Qs1, Qo1, R NO
 
 * Query 1: Should be "YES" by direct relation
 Add, Qs1, Qo1, R
-Query, Qs1, Qo1, R
+Query, Qs1, Qo1, R YES
 
 * Query 2: Should be "YES" by indirect relation
 Add, Qs1, Qo1, R
-Query, Qs2, Qo1, R
+Query, Qs2, Qo1, R YES
 
 WRITE PRIVLEDGES:
 * Query 3: Should be "NO" since no subject has appropriate privledges
-Query, Qs3, Qo3, W
+Query, Qs3, Qo3, W NO
 
 * Query 4: Should be "YES" by direct relation
 Add, Qs3, Qo3, W
-Query, Qs3, Qo3, W
+Query, Qs3, Qo3, W YES
 
 * Query 5: Should be "YES" by indirect relation
 Add, Qs4, Qo4, W
-Query, Qs5, Qo4, W
+Query, Qs5, Qo4, W YES
 
 TAKE PRIVLEDGES:
 * Query 6: Should always be "YES" if instruction is valid
-Query, Qs6, Qs5, T
+Query, Qs6, Qs5, T YES
 
 _______________________ TESTING INSTURCTION VALIDATION _______________________
 
@@ -70,11 +70,11 @@ ADD INSTRUCTION:
 GENERAL:
 * Val 0: Should be "NO" since the add is not valid syntax
 NotAdd, Vs1, Vo1, R
-Query, Vs1, Vo1, R
+Query, Vs1, Vo1, R NO
 
 * Val 1: Should be "NO" since "D" is not a valid privledge
 Add, Vs1, Vo1, D
-Query, Vs1, Vo1, R
+Query, Vs1, Vo1, R NO
 
 * Val 2: Should be a "Comment" since "D" is not a valid privledge
 Add, Vs1, Vo1, D
@@ -84,19 +84,19 @@ READ PRIVLEDGES:
 * Val 3: Should be "NO" since "Vo1" is an object
 Add, Vs1, Vo1, R
 Add, Vo1, Vo2, R
-Query, Vs1, Vo2, R
+Query, Vs1, Vo2, R NO
 
 WRITE PRIVLEDGES:
 * Val 4: Should be "NO" since "Vo1" is an object
 Add, Vs1, Vo1, W
 Add, Vo1, Vo2, W
-Query, Vs1, Vo2, W
+Query, Vs1, Vo2, W NO
 
 TAKE PRIVLEDGES:
 * Val 5: Should be "NO" since "Vo5" is an object
 Add, Vs5, Vo5, R
 Add, Vs5, Vo5, T
-Query, Vs5, Vo5, W
+Query, Vs5, Vo5, W NO
 
 QUERY INSTRUCTION:
 GENERAL:
@@ -124,7 +124,7 @@ TAKE PRIVLEDGES:
 * Val 11: Should be "No" since the "Add" is a "Comment"
 Add, Vs10, Vo10, R
 Add, Vs11, Vo10, T
-Query, Vs11, Vo10, W
+Query, Vs11, Vo10, W NO
 
 ____________________________ MIX TEST ____________________________
 
@@ -132,20 +132,20 @@ Add, Ms1, Mo1, R
 Add, Ms1, Mo1, W
 
 * "NO"
-Query, Ms1, Mo2, W
+Query, Ms1, Mo2, W NO
 
 * "YES"
-Query, Ms1, Mo1, W
+Query, Ms1, Mo1, W YES
 
 * "YES"
-Query, Ms2, Mo1, R
+Query, Ms2, Mo1, R YES
 
 * "YES"
-Query, Ms2, Mo1, W
+Query, Ms2, Mo1, W YES
 
 * "YES"
 Add, Ms1, Ms2, T
-Query, Ms2, Mo1, W
+Query, Ms2, Mo1, W YES
 
 * "COMMENT"
 Query, Ms2, Ms1, W
@@ -155,4 +155,4 @@ ____________________________ GIVEN TEST ____________________________
 * "YES"
 Add, s1, o1, R
 Add, s2, o1, W
-Query, s1, o1, R
+Query, s1, o1, R YES
