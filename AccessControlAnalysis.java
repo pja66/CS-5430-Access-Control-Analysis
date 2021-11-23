@@ -25,12 +25,15 @@ public class AccessControlAnalysis {
     String path = "test.txt";
     List<String> file = inputFile(path);
 
+
     //Cycle Through File
+
+    List<Long> addTimes = new ArrayList<>();
+    List<Long> queryTimes = new ArrayList<>();
     for(int line = 0; line < file.size(); line++)
     {
       String stLine = file.get(line);
       List<String> instruction = concatenate(stLine);
-
       if(validInstruction(instruction))
       {  //Command Block
         String type = instruction.get(0);
@@ -38,15 +41,25 @@ public class AccessControlAnalysis {
         String object = instruction.get(2);
         String priv = instruction.get(3);
 
-        if(type.equals("Add"))
+        if(type.equals("Add")) {
+          long startAdd = System.nanoTime();
           add(stLine, subject, object, priv);
-        else
+          long finishAdd = System.nanoTime();
+          addTimes.add(finishAdd-startAdd);
+        } else {
+          long startQuery = System.nanoTime();
           query(stLine, object, priv);
+          long finishQuery = System.nanoTime();
+          queryTimes.add(finishQuery - startQuery);
+        }
       }
       else //Comment NOT a Command
         outputFile.add(stLine); 
     }
-    
+    Double addAverage = addTimes.stream().mapToDouble(val -> val).average().orElse(0.0);
+    Double queryAverage = queryTimes.stream().mapToDouble(val -> val).average().orElse(0.0);
+    System.out.printf("Average add elapsed time: %f milliseconds\n", addAverage*1e-6);
+    System.out.printf("Average query elapsed time: %f milliseconds\n", queryAverage*1e-6);
     //Generates output File
     outputFileGen(outputFile);
   }
