@@ -1,8 +1,12 @@
 Setup Instructions:
-* No "setup.sh" file required
 * Make sure the "input file" is in the same folder as the sourcecode
-* Follow the instructions after running "analyze.sh" to input file names
+* Inline commands:
+  * chmod +x setup.sh
+  * ./setup.sh
 
-Inline Commands to run analyze.sh:
-* chmod +x analyze.sh
-* ./analyze.sh
+Analyze Insturctions:
+* Include the name of both the input and output files as arguments when running
+  analyze.sh
+* Inline commands:
+  * chmod +x analyze.sh
+  * ./analyze.sh "Name of input file" "Name of output file"
