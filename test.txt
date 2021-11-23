@@ -145,6 +145,11 @@ ____________________________ MIX TEST ____________________________
 
 Add, Ms1, Mo1, R
 Add, Ms1, Mo1, W
+Add, Ms3 Mo1, R
+Add, Ms2, Mo1, W
+Add, Ms0, Mo1, W
+Add, Ms4 Mo1, R
+Add, Ms5, Mo1, W
 
 * "NO"
 Query, Ms1, Mo2, W

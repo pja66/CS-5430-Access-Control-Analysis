@@ -22,7 +22,7 @@ public class AccessControlAnalysis {
   
   public static void main(String[] args) throws FileNotFoundException, IOException {
     //Input File
-    String path = "test.txt";
+    String path = args[0];
     List<String> file = inputFile(path);
 
     //Cycle Through File
@@ -48,7 +48,7 @@ public class AccessControlAnalysis {
     }
     
     //Generates output File
-    outputFileGen(outputFile);
+    outputFileGen(outputFile, args[1]);
   }
 
   //Outputs List generated from orginal txt where each list Cell is a line
@@ -217,8 +217,8 @@ public class AccessControlAnalysis {
     outputFile.add(stLine + " NO");
   }
 
-  private static void outputFileGen(List<String> outputFile) throws IOException{
-    FileWriter writer = new FileWriter("output.txt"); 
+  private static void outputFileGen(List<String> outputFile, String name) throws IOException{
+    FileWriter writer = new FileWriter(name); 
     for(String str: outputFile) {
       writer.write(str + System.lineSeparator());
     }
