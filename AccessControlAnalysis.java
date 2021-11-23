@@ -47,13 +47,8 @@ public class AccessControlAnalysis {
         outputFile.add(stLine); 
     }
     
-    //We will end up just keeping this
+    //Generates output File
     outputFileGen(outputFile);
-
-    //Just Pretty Print to Terminal
-    System.out.println(" ");
-    for(int i = 0; i < outputFile.size(); i++)
-      System.out.println(outputFile.get(i));
   }
 
   //Outputs List generated from orginal txt where each list Cell is a line
